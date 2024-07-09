@@ -23,7 +23,7 @@ class MainController extends GetxController {
   @override
   void onInit() {
     Future.delayed(const Duration(seconds: 3), () {
-      Get.to(const DashboardScreen());
+      Get.to( DashboardScreen());
     });
     // TODO: implement onInit
     super.onInit();

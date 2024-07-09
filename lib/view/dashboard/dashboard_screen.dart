@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:task_tracker/common/app_strings.dart';
 import 'package:task_tracker/main_controller.dart';
+import 'package:task_tracker/task_board/task_board_controller.dart';
 import 'package:task_tracker/view/change_theme/settings_screen.dart';
 import 'package:task_tracker/view/create_board/create_board_screen.dart';
 
@@ -19,6 +20,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final mainController = Get.put<MainController>(MainController());
+  final taskBoardController = Get.put<TaskBoardController>(TaskBoardController());
   final DatabaseHelper databaseHelper = DatabaseHelper();
 
   @override
@@ -32,7 +34,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               centerTitle: true,
               backgroundColor: mainController.selectedPrimaryColor,
               title: Text(
-                AppStrings.board,
+                'board'.tr,
                 style: TextStyle(
                     fontSize: TextSize.titleSize,
                     fontWeight: FontWeight.w500,
@@ -55,7 +57,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
             floatingActionButton: GestureDetector(
               onTap: () {
-                Get.to( CreateBoardScreen(createTaskScreen: ''));
+                Get.to(CreateBoardScreen(createTaskScreen: ''));
               },
               child: Container(
                 height: 50,
@@ -102,125 +104,69 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               var board = snapshot.data![index];
                               return GestureDetector(
                                 onTap: () {
-                                  Get.to(BardViewScreen());
+                                  Get.to(BardViewScreen(
+                                    boardData: snapshot
+                                        .data![index], // Pass board data
+                                  ));
                                 },
-                                child: Card(
-                                  color: AppColors.cardSecondColor
-                                      .withOpacity(0.4),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        SizedBox(
-                                          height: 60,
-                                          child: Padding(
+                                child: Container(
+                                  color: Colors.transparent,
+                                  child: Card(
+                                    color: AppColors.cardSecondColor
+                                        .withOpacity(0.4),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 10),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            height: 60,
+                                            child: Padding(
+                                              padding: const EdgeInsets.symmetric(
+                                                  horizontal: 10),
+                                              child: Text(
+                                                board['boardName'],
+                                                softWrap: true,
+                                                maxLines: 2,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    fontSize: TextSize.titleSize,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: AppColors.whiteColor),
+                                              ),
+                                            ),
+                                          ),
+                                          Container(
+                                            width: double.infinity,
                                             padding: const EdgeInsets.symmetric(
-                                                horizontal: 10),
+                                                horizontal: 10, vertical: 10),
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color: AppColors.cardColor,
+                                            ),
                                             child: Text(
-                                              board['boardName'],
+                                              board['description'],
                                               softWrap: true,
                                               maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
                                               style: TextStyle(
-                                                  fontSize: TextSize.titleSize,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: AppColors.whiteColor),
-                                            ),
-                                          ),
-                                        ),
-                                        Container(
-                                          width: double.infinity,
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 10),
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            color: AppColors.cardColor,
-                                          ),
-                                          child: Text(
-                                            board['description'],
-                                            softWrap: true,
-                                            maxLines: 2,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                fontSize: TextSize.mediumSize,
-                                                fontWeight: FontWeight.w400,
-                                                color: AppColors.splashColor),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 5),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              color: AppColors.cardColor,
-                                            ),
-                                            child: Text(
-                                              "${AppStrings.toDo} - 0",
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      TextSize.mediumSmallSize,
+                                                  fontSize: TextSize.mediumSize,
                                                   fontWeight: FontWeight.w400,
                                                   color: AppColors.splashColor),
                                             ),
                                           ),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 5),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              color: AppColors.cardColor,
-                                            ),
-                                            child: Text(
-                                              "${AppStrings.inProgress} - 0",
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      TextSize.mediumSmallSize,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: AppColors.splashColor),
-                                            ),
-                                          ),
-                                        ),
-                                        const SizedBox(height: 8),
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          child: Container(
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 10, vertical: 5),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              color: AppColors.cardColor,
-                                            ),
-                                            child: Text(
-                                              "${AppStrings.done} - 0",
-                                              overflow: TextOverflow.ellipsis,
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      TextSize.mediumSmallSize,
-                                                  fontWeight: FontWeight.w400,
-                                                  color: AppColors.splashColor),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                          const SizedBox(height: 10),
+                                          _buildCountWidget('toDo'.tr, taskBoardController.listData[0].count.value??0),
+                                          const SizedBox(height: 8),
+                                          _buildCountWidget(
+                                              'inProgress'.tr, taskBoardController.listData[1].count.value??0),
+                                          const SizedBox(height: 8),
+                                          _buildCountWidget('done'.tr, taskBoardController.listData[2].count.value??0),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -234,5 +180,27 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 )),
           );
         });
+  }
+
+  Widget _buildCountWidget(String title, int count) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: AppColors.cardColor,
+        ),
+        child: Text(
+          "$title - $count",
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            fontSize: TextSize.mediumSmallSize,
+            fontWeight: FontWeight.w400,
+            color: AppColors.splashColor,
+          ),
+        ),
+      ),
+    );
   }
 }

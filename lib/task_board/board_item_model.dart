@@ -1,29 +1,28 @@
-import 'dart:math';
+// board_item_model.dart
+
+import 'package:intl/intl.dart';
 
 class BoardItemModel {
   final String title;
   final String subtitle;
-  final String description;
+  final String? createdTime; // Updated to String for formatted time
 
   BoardItemModel({
     required this.title,
     required this.subtitle,
-    required this.description,
+     this.createdTime,
   });
 
-  // Factory constructor for stub items
-  factory BoardItemModel.stub() {
+  // Factory method to create a new item with current time
+  factory BoardItemModel.newItem({
+    required String title,
+    required String subtitle,
+  }) {
+    String formattedDateTime = DateFormat('hh:mm a, dd-MM-yyyy').format(DateTime.now());
     return BoardItemModel(
-      title: "Task #${Random().nextInt(100)}",
-      subtitle: "Subtitle of task",
-      description: "Description of task",
+      title: title,
+      subtitle: subtitle,
+      createdTime: formattedDateTime,
     );
   }
-
-  // Constructor for adding new items dynamically
-  BoardItemModel.newItem( {
-    required this.title,
-    required this.subtitle,
-    required this.description,
-  });
 }

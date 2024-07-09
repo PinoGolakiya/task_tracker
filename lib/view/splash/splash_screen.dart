@@ -42,7 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      AppStrings.appName,
+                      'appName'.tr,
                       style: TextStyle(
                           fontSize: TextSize.titleSize,
                           color: controller.selectedPrimaryColor ==

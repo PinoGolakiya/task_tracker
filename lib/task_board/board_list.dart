@@ -1,13 +1,15 @@
-import 'package:flutter_boardview/board_item.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:get/get.dart';
 
 import 'board_item_model.dart';
 
 class BoardListModel {
-  int count;
+  RxInt count;
   List<BoardItemModel> items;
   String name;
-  PagingController<int, BoardItem>? pagingController;
 
-  BoardListModel({required this.count, required this.name, required this.items, this.pagingController});
+  BoardListModel({
+    required this.count,
+    required this.name,
+    required this.items,
+  });
 }

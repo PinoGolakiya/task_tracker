@@ -4,9 +4,10 @@ import 'board_item_model.dart';
 
 class BoardCard extends StatelessWidget {
   final BoardItemModel item;
-  final Function onTap;
+  final Function(BoardItemModel) onTap;
 
-  const BoardCard({super.key, required this.item, required this.onTap});
+  const BoardCard({Key? key, required this.item, required this.onTap})
+      : super(key: key);
 
   void _handleItemTap() => onTap(item);
 
@@ -17,20 +18,35 @@ class BoardCard extends StatelessWidget {
       child: Card(
         child: ClipPath(
           clipper: ShapeBorderClipper(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(6))),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6),
+            ),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(item.title, maxLines: 1),
-                Opacity(opacity: 0.6, child: Text(item.subtitle, maxLines: 1)),
+                Text(
+                  item.title,
+                  maxLines: 2,
+                  softWrap: true,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 Opacity(
-                    opacity: 0.6, child: Text(item.description, maxLines: 1)),
+                  opacity: 0.6,
+                  child: Text(
+                    item.subtitle,
+                    maxLines: 2,
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
                 const Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: [Icon(Icons.supervised_user_circle_outlined)],
+                  children: [
+                    Icon(Icons.supervised_user_circle_outlined),
+                  ],
                 )
               ],
             ),

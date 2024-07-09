@@ -22,10 +22,17 @@ class AppStrings {
   static const String create = "create";
   static const String boardName = "Board Name";
   static const String discription = "Discription";
+  static const String enterBoardName = "Please enter board name";
+  static const String enterDiscription = "Please enter discription";
+  static const String enterTitle = "Please enter title";
 
   ///<<<<----------------- Board view screen strings ----------------->>>
   static const String taskBoardApp = "Task board app";
   static const String newString = "New";
   static const String pagination = "Pagination (infinite scroll)";
 
+  ///<<<<----------------- Task screen strings ----------------->>>
+  static const String task = "Task";
+  static const String createdAt = "Created At";
+  static const String typeComment = "Type Comment...";
 }

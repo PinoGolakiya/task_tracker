@@ -9,4 +9,11 @@ class CreateBoardController extends GetxController {
   TextEditingController createTaskDiscription = TextEditingController();
 
   final DatabaseHelper databaseHelper = DatabaseHelper();
+
+  clearAllController() {
+    boardName.clear();
+    title.clear();
+    discription.clear();
+    createTaskDiscription.clear();
+  }
 }
