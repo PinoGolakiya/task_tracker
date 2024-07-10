@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:task_tracker/view/create_board/create_board_controller.dart';
 import 'package:task_tracker/view/create_board/create_board_screen.dart';
 import 'package:task_tracker/view/task/task_controller.dart';
@@ -104,8 +105,27 @@ class _TaskScreenState extends State<TaskScreen> {
                             formateDescrption(
                                 'createdAt'.tr, widget.createdTime),
                             const SizedBox(height: 5),
-                            formateDescrption(
-                                'description'.tr, widget.discription),
+                            Obx(
+                              () {
+                                return Row(
+                                  children: [
+                                    formateDescrption(
+                                        'description'.tr, widget.discription),
+                                    const Spacer(),
+                                    Text(
+                                      controller.timerText.value,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                    IconButton(
+                                      onPressed: () => controller.toggleTimer(),
+                                      icon: Icon(controller.timerRunning.value
+                                          ? Icons.pause
+                                          : Icons.play_arrow),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
                           ],
                         ),
                       ),
@@ -114,7 +134,59 @@ class _TaskScreenState extends State<TaskScreen> {
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
+                        const SizedBox(height: 10),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 100),
+                            child: ListView.builder(
+                              padding: EdgeInsets.zero,
+                              itemCount: controller.comments.length,
+                              itemBuilder: (context, index) {
+                                String formattedDateTime =
+                                    DateFormat('hh:mm a, dd-MM-yyyy')
+                                        .format(DateTime.now());
+
+                                return Padding(
+                                  padding: const EdgeInsets.only(bottom: 10),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(15),
+                                        topRight: Radius.circular(15),
+                                        bottomLeft: Radius.circular(15),
+                                        bottomRight: Radius.circular(0),
+                                      ),
+                                      color: AppColors.cardColor,
+                                    ),
+                                    child: ListTile(
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                      title: Text(
+                                        controller
+                                                .comments[index].createdTime ??
+                                            formattedDateTime,
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(
+                                            fontSize: TextSize.mediumSize,
+                                            color: AppColors.blackColor),
+                                      ),
+                                      subtitle: Text(
+                                        controller.comments[index].content,
+                                        textAlign: TextAlign.end,
+                                        style: TextStyle(
+                                            color: AppColors.blackColor),
+                                      ),
+                                      // Add delete functionality if needed
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
                         Row(
                           children: [
                             Expanded(
@@ -129,14 +201,19 @@ class _TaskScreenState extends State<TaskScreen> {
                               ),
                             ),
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                String commentText = controller.comment.text;
+                                controller
+                                    .addComment(commentText); // Add comment
+                                controller.comment.clear();
+                              },
                               icon: const Icon(Icons.send),
                             ),
                           ],
                         ),
                       ],
                     ),
-                  ),
+                  )
                 ],
               ),
             )),

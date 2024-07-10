@@ -89,7 +89,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                               child: CircularProgressIndicator());
                         }
                         if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                          return const Center(child: Text(AppStrings.noboard));
+                          return  Center(child: Text('noboard'.tr));
                         }
                         return Expanded(
                           child: GridView.builder(
